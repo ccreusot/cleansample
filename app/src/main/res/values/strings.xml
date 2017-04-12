@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">CleanArchiSample</string>
+    <string name="title_activity_git_hub_fork_list">GitHubForkListActivity</string>
+    <string name="git_hub_fork_list_load_error">An error occurred, we could not load the data…</string>
+    <string name="git_hub_fork_list_nothing_to_show">Their is no data to from the server…</string>
+</resources>
