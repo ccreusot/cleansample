@@ -17,8 +17,17 @@ import retrofit2.http.GET;
 public class GitHubRepositoryImpl implements GitHubRepository {
 
     private final GitHubForkService gitHubForkService;
+    private List<GitHubFork> gitHubForks;
+    private static GitHubRepositoryImpl instance = null;
 
-    public GitHubRepositoryImpl() {
+    public static GitHubRepository getInstance() {
+        if (instance == null) {
+            instance = new GitHubRepositoryImpl();
+        }
+        return instance;
+    }
+
+    private GitHubRepositoryImpl() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -27,22 +36,33 @@ public class GitHubRepositoryImpl implements GitHubRepository {
             .addConverterFactory(JacksonConverterFactory.create(objectMapper))
             .build();
         gitHubForkService = retrofit.create(GitHubForkService.class);
+        gitHubForks = new ArrayList<>();
     }
 
     @Override
     public List<GitHubFork> getForkList() throws GitHubRepositoryException {
         try {
-            Response<List<JsonGitHubFork>> execute = gitHubForkService.getForkListFromDefinitelyTyped().execute();
-            List<GitHubFork> gitHubForks = new ArrayList<>();
-            List<JsonGitHubFork> body = execute.body();
-            gitHubForks.addAll(body);
+            if (gitHubForks.isEmpty()) {
+                Response<List<JsonGitHubFork>> execute = gitHubForkService.getForkListFromDefinitelyTyped().execute();
+                List<JsonGitHubFork> body = execute.body();
+                gitHubForks.addAll(body);
+            }
             return gitHubForks;
         } catch (Exception e) {
             throw new GitHubRepositoryException();
         }
     }
 
-    //https://api.github.com/repos/DefinitelyTyped/DefinitelyTyped/forks
+    @Override
+    public GitHubFork getForkDetail(String id) throws GitHubRepositoryException {
+        for (GitHubFork fork : gitHubForks) {
+            if (fork.getId().equals(id)) {
+                return fork;
+            }
+        }
+        return null;
+    }
+
     interface GitHubForkService {
         @GET("/repos/DefinitelyTyped/DefinitelyTyped/forks")
         Call<List<JsonGitHubFork>> getForkListFromDefinitelyTyped();

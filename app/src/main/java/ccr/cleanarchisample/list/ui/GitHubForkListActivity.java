@@ -37,7 +37,7 @@ public class GitHubForkListActivity extends AppCompatActivity implements GitHubF
         gitHubForkListAdapter = new GitHubForkListAdapter();
         gitHubForkRecyclerView.setAdapter(gitHubForkListAdapter);
 
-        module = new GitHubForkListModule(new GitHubRepositoryImpl());
+        module = new GitHubForkListModule(GitHubRepositoryImpl.getInstance());
         module.getViewDecorator().mutate(this);
         module.getInteractor().fetchForkList();
     }

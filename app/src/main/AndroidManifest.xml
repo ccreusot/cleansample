@@ -14,14 +14,17 @@
 
         <activity
             android:name=".list.ui.GitHubForkListActivity"
-            android:label="@string/title_activity_git_hub_fork_list"
-            android:theme="@style/Theme.AppCompat.Light">
+            android:label="@string/title_activity_git_hub_fork_list">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".detail.ui.DetailGitHubForkActivity"
+                  android:label="@string/detail_label"/>
+
     </application>
 
 </manifest>

@@ -37,6 +37,6 @@ public class GitHubForkListPresenterImpl implements GitHubForkListPresenter {
     }
 
     private GitHubForkItemViewModel convertGitHubForkToViewModel(GitHubFork gitHubFork) {
-        return new GitHubForkItemViewModel(gitHubFork.getTitle(), gitHubFork.getUrlImage());
+        return new GitHubForkItemViewModel(gitHubFork.getId(), gitHubFork.getTitle(), gitHubFork.getUrlImage());
     }
 }

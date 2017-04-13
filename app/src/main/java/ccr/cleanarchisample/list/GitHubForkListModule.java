@@ -19,11 +19,11 @@ public class GitHubForkListModule {
 
     public GitHubForkListModule(GitHubRepository repository) {
         view = provideView();
-        interactor = provideInteractor(view, repository);
+        interactor = provideInteractor(repository);
     }
 
     @ImmutableExecutorDecorator
-    private GitHubForkListInteractor provideInteractor(GitHubForkListView view, GitHubRepository repository) {
+    private GitHubForkListInteractor provideInteractor(GitHubRepository repository) {
         return new GitHubForkListInteractorDecorator(
                 Executors.newSingleThreadExecutor(),
                 new GitHubForkListInteractorImpl(
