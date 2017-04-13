@@ -15,6 +15,7 @@ import ccr.cleanarchisample.model.GitHubFork;
 import ccr.cleanarchisample.list.viewmodel.GitHubForkItemViewModel;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -42,7 +43,7 @@ public class GitHubForkListPresenterImplTest {
     }
 
     @Test
-    public void testPresentError()throws Exception {
+    public void testPresentError() throws Exception {
         presenter.presentError();
 
         verify(view).displayError();
@@ -50,14 +51,24 @@ public class GitHubForkListPresenterImplTest {
 
     @Test
     public void testPresentList() throws Exception {
+        GitHubFork gitHubForkMock = mock(GitHubFork.class);
         List<GitHubFork> gitHubForkList = Arrays.asList(
-                mock(GitHubFork.class),
-                mock(GitHubFork.class)
+            gitHubForkMock,
+            mock(GitHubFork.class)
         );
+
+        given(gitHubForkMock.getId()).willReturn("id");
+        given(gitHubForkMock.getTitle()).willReturn("title");
+        given(gitHubForkMock.getUrlImage()).willReturn("urlImage");
 
         presenter.presentList(gitHubForkList);
 
         verify(view).displayList(listCaptor.capture());
-        assertThat(listCaptor.getValue().get(0)).isInstanceOf(GitHubForkItemViewModel.class);
+
+        GitHubForkItemViewModel gitHubForkItemViewModel = listCaptor.getValue().get(0);
+        assertThat(gitHubForkItemViewModel).isInstanceOf(GitHubForkItemViewModel.class);
+        assertThat(gitHubForkItemViewModel.getId()).isEqualTo("id");
+        assertThat(gitHubForkItemViewModel.getTitle()).isEqualTo("title");
+        assertThat(gitHubForkItemViewModel.getUrlImage()).isEqualTo("urlImage");
     }
 }
