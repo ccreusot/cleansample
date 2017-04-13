@@ -41,7 +41,7 @@ public class GitHubForkListModule {
     }
 
     public GitHubForkListInteractor getInteractor() {
-        return getInteractor();
+        return interactor;
     }
 
 }

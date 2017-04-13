@@ -20,7 +20,7 @@ public class GitHubForkListInteractorImpl implements GitHubForkListInteractor {
     public void fetchForkList() {
         try {
             List<GitHubFork> gitHubForks = repository.getForkList();
-            if (!gitHubForks.isEmpty()) {
+            if (gitHubForks != null && !gitHubForks.isEmpty()) {
                 presenter.presentList(gitHubForks);
             } else {
                 presenter.presentNothing();

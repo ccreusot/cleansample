@@ -40,6 +40,16 @@ public class GitHubForkListInteractorImplTest {
     }
 
     @Test
+    public void fetchForkList_WithListIsNull() throws Exception {
+        given(repository.getForkList()).willReturn(null);
+
+        interactor.fetchForkList();
+
+        verify(repository).getForkList();
+        verify(presenter).presentNothing();
+    }
+
+    @Test
     public void fetchForkList_WithListIsEmpty() throws Exception {
         List<GitHubFork> gitHubForks = Collections.emptyList();
         given(repository.getForkList()).willReturn(gitHubForks);
